@@ -3,7 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueResouce from 'vue-resource'
+// 引入css样式
+import './common/stylus/index.styl'
 
+Vue.use(VueResouce)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
