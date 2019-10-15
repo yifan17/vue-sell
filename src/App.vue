@@ -9,19 +9,19 @@
       <div class="tab-item"><router-link to="/seller">商家</router-link></div>
     </div>
     <div class="content">
-      <router-view></router-view>
+      <router-view :seller="seller"></router-view>
     </div>
   </div>
 </template>
 <script>
 import Header from './components/header/header.vue'
 export default {
-  data () {
+  data() {
     return {
       seller: {}
     }
   },
-  created () {
+  created() {
     this.$http.get('/api/seller').then((res) => {
       res = res.body
       const ERR_OK = 0
