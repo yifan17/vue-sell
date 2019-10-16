@@ -16,7 +16,7 @@
         <li v-for="(item, index) in goods" class="food-list food-list-hook" :key="index">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li @click="selectFood(food,$event)" class="food-item border-1px" v-for="(food, index) in item.foods" :key="index">
+            <li class="food-item border-1px" v-for="(food, index) in item.foods" :key="index">
               <div class="icon">
                 <img :src="food.icon" width="57" height="57">
               </div>
@@ -32,7 +32,7 @@
                   <span class="old" v-show="food.oldPrice">¥{{food.oldPrice}}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-
+                  <cartcontrol :food = "food"></cartcontrol>
                 </div>
               </div>
             </li>
@@ -41,16 +41,22 @@
       </ul>
     </div>
     <!-- 购物车 -->
-  <!-- <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
-            :min-price="seller.minPrice"></shopcart> -->
+  <shopcart :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice"
+            :minPrice="seller.minPrice"></shopcart>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
 import shopcart from '../shopcart/shopcart'
+import cartcontrol from 'components/cartcontrol/cartcontrol'
 const ERR_OK = 0
 export default {
+  props: {
+    seller: {
+      type: Object
+    }
+  },
   data() {
     return {
       goods: [],
@@ -70,8 +76,20 @@ export default {
         }
       }
       return 0
+    },
+    selectFoods() {
+      let foods = []
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if(food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
     }
   },
+
   created() {
     // 这里面一般调接口
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
@@ -131,7 +149,8 @@ export default {
     }
   },
   components: {
-    shopcart
+    shopcart,
+    cartcontrol
   }
 }
 </script>
